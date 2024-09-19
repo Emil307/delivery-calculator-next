@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { calc } from "@/app/api/calc";
 import { getAddress } from "@/app/api/address";
+import { useDebounce } from "@/app/lib/api/useDebounce";
 
 interface IFormFileds {
   deliveryTo: string;
@@ -24,15 +25,19 @@ export const CalcForm: React.FC = () => {
 
   const watchDeliveryTo = watch("deliveryTo", "");
 
+  const debouncedDeliveryTo = useDebounce(watchDeliveryTo, 500);
+
   useEffect(() => {
-    getAddress(watchDeliveryTo)
-      .then((res) => {
-        console.log(res.suggestions);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [watchDeliveryTo]);
+    if (typeof debouncedDeliveryTo === "string") {
+      getAddress(debouncedDeliveryTo)
+        .then((res) => {
+          console.log(res.suggestions);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [debouncedDeliveryTo]);
 
   const onSubmit: SubmitHandler<IFormFileds> = async (data) => {
     calc(data)
