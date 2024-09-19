@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 interface IFormFileds {
   deliveryTo: string;
-  long: string;
+  length: string;
   width: string;
   height: string;
   weight: string;
@@ -51,21 +51,21 @@ export const CalcForm: React.FC = () => {
           )}
         </FormControl>
         <FormControl
-          isInvalid={Boolean(errors.long)}
+          isInvalid={Boolean(errors.length)}
           className="relative flex flex-col gap-1"
         >
           <FormLabel></FormLabel>
           <Input
-            {...register("long", {
+            {...register("length", {
               required: "Обязательное поле",
             })}
             placeholder="Длина см"
             size="sm"
             variant="flushed"
           />
-          {errors.long && (
+          {errors.length && (
             <p className="absolute -bottom-6 left-0 text-red-500">
-              {errors.long.message}
+              {errors.length.message}
             </p>
           )}
         </FormControl>
