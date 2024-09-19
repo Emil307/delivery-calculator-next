@@ -19,7 +19,11 @@ export const CalcForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-8 items-start p-8 rounded-xl bg-white"
+    >
+      <h1 className="font-bold text-2xl">Рассчитать доставку</h1>
       <div>
         <input
           {...register("deliveryTo", {
