@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@/app/ui/styles/globals.css";
 import { inter } from "@/app/ui/styles/fonts";
+import { Providers } from "@/app/providers";
 
 export const metadata: Metadata = {
   title: "Калькулятор стоимости доставки",
@@ -15,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${inter.className} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
