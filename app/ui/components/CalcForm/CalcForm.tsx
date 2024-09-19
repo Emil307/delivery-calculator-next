@@ -1,6 +1,6 @@
 "use client";
 
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -16,7 +16,7 @@ export const CalcForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IFormFileds>();
 
   const onSubmit: SubmitHandler<IFormFileds> = async (data) => {
@@ -30,7 +30,10 @@ export const CalcForm: React.FC = () => {
     >
       <h1 className="font-bold text-2xl">Рассчитать доставку</h1>
       <div className="w-full flex flex-col gap-4">
-        <FormControl isInvalid={Boolean(errors.deliveryTo)}>
+        <FormControl
+          isInvalid={Boolean(errors.deliveryTo)}
+          className="flex flex-col gap-1"
+        >
           <FormLabel></FormLabel>
           <Input
             placeholder="Куда"
@@ -41,9 +44,14 @@ export const CalcForm: React.FC = () => {
             size="sm"
             variant="flushed"
           />
-          {errors.deliveryTo && <>{errors.deliveryTo.message}</>}
+          {errors.deliveryTo && (
+            <p className="text-red-500">{errors.deliveryTo.message}</p>
+          )}
         </FormControl>
-        <FormControl isInvalid={Boolean(errors.long)}>
+        <FormControl
+          isInvalid={Boolean(errors.long)}
+          className="flex flex-col gap-1"
+        >
           <FormLabel></FormLabel>
           <Input
             {...register("long", {
@@ -53,9 +61,12 @@ export const CalcForm: React.FC = () => {
             size="sm"
             variant="flushed"
           />
-          {errors.long && <>{errors.long.message}</>}
+          {errors.long && <p className="text-red-500">{errors.long.message}</p>}
         </FormControl>
-        <FormControl isInvalid={Boolean(errors.width)}>
+        <FormControl
+          isInvalid={Boolean(errors.width)}
+          className="flex flex-col gap-1"
+        >
           <FormLabel></FormLabel>
           <Input
             {...register("width", {
@@ -65,9 +76,14 @@ export const CalcForm: React.FC = () => {
             size="sm"
             variant="flushed"
           />
-          {errors.width && <>{errors.width.message}</>}
+          {errors.width && (
+            <p className="text-red-500">{errors.width.message}</p>
+          )}
         </FormControl>
-        <FormControl isInvalid={Boolean(errors.height)}>
+        <FormControl
+          isInvalid={Boolean(errors.height)}
+          className="flex flex-col gap-1"
+        >
           <FormLabel></FormLabel>
           <Input
             {...register("height", {
@@ -77,9 +93,14 @@ export const CalcForm: React.FC = () => {
             size="sm"
             variant="flushed"
           />
-          {errors.height && <>{errors.height.message}</>}
+          {errors.height && (
+            <p className="text-red-500">{errors.height.message}</p>
+          )}
         </FormControl>
-        <FormControl isInvalid={Boolean(errors.weight)}>
+        <FormControl
+          isInvalid={Boolean(errors.weight)}
+          className="flex flex-col gap-1"
+        >
           <FormLabel></FormLabel>
           <Input
             {...register("weight", {
@@ -89,10 +110,22 @@ export const CalcForm: React.FC = () => {
             size="sm"
             variant="flushed"
           />
-          {errors.weight && <>{errors.weight.message}</>}
+          {errors.weight && (
+            <p className="text-red-500">{errors.weight.message}</p>
+          )}
         </FormControl>
       </div>
-      <button type="submit">Рассчитать</button>
+      <Button
+        width={"full"}
+        size={"lg"}
+        fontWeight={"bold"}
+        color={"white"}
+        colorScheme="blue"
+        isLoading={isSubmitting}
+        type="submit"
+      >
+        Рассчитать
+      </Button>
     </form>
   );
 };
