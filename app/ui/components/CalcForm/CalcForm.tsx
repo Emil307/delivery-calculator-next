@@ -1,8 +1,10 @@
 "use client";
 
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { calc } from "@/app/api/calc";
+import { getAddress } from "@/app/api/address";
 
 interface IFormFileds {
   deliveryTo: string;
@@ -15,12 +17,31 @@ interface IFormFileds {
 export const CalcForm: React.FC = () => {
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<IFormFileds>();
 
+  const watchDeliveryTo = watch("deliveryTo", "");
+
+  useEffect(() => {
+    getAddress(watchDeliveryTo)
+      .then((res) => {
+        console.log(res.suggestions);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [watchDeliveryTo]);
+
   const onSubmit: SubmitHandler<IFormFileds> = async (data) => {
-    console.log(data);
+    calc(data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
