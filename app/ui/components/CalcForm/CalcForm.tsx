@@ -26,13 +26,13 @@ export const CalcForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-96 flex flex-col gap-8 items-start p-8 rounded-xl bg-white"
+      className="w-96 flex flex-col gap-4 items-start p-8 rounded-xl bg-white"
     >
       <h1 className="font-bold text-2xl">Рассчитать доставку</h1>
       <div className="w-full flex flex-col gap-4">
         <FormControl
           isInvalid={Boolean(errors.deliveryTo)}
-          className="flex flex-col gap-1"
+          className="relative flex flex-col gap-1"
         >
           <FormLabel></FormLabel>
           <Input
@@ -45,12 +45,14 @@ export const CalcForm: React.FC = () => {
             variant="flushed"
           />
           {errors.deliveryTo && (
-            <p className="text-red-500">{errors.deliveryTo.message}</p>
+            <p className="absolute -bottom-6 left-0 text-red-500">
+              {errors.deliveryTo.message}
+            </p>
           )}
         </FormControl>
         <FormControl
           isInvalid={Boolean(errors.long)}
-          className="flex flex-col gap-1"
+          className="relative flex flex-col gap-1"
         >
           <FormLabel></FormLabel>
           <Input
@@ -61,11 +63,15 @@ export const CalcForm: React.FC = () => {
             size="sm"
             variant="flushed"
           />
-          {errors.long && <p className="text-red-500">{errors.long.message}</p>}
+          {errors.long && (
+            <p className="absolute -bottom-6 left-0 text-red-500">
+              {errors.long.message}
+            </p>
+          )}
         </FormControl>
         <FormControl
           isInvalid={Boolean(errors.width)}
-          className="flex flex-col gap-1"
+          className="relative flex flex-col gap-1"
         >
           <FormLabel></FormLabel>
           <Input
@@ -77,12 +83,14 @@ export const CalcForm: React.FC = () => {
             variant="flushed"
           />
           {errors.width && (
-            <p className="text-red-500">{errors.width.message}</p>
+            <p className="absolute -bottom-6 left-0 text-red-500">
+              {errors.width.message}
+            </p>
           )}
         </FormControl>
         <FormControl
           isInvalid={Boolean(errors.height)}
-          className="flex flex-col gap-1"
+          className="relative flex flex-col gap-1"
         >
           <FormLabel></FormLabel>
           <Input
@@ -94,12 +102,14 @@ export const CalcForm: React.FC = () => {
             variant="flushed"
           />
           {errors.height && (
-            <p className="text-red-500">{errors.height.message}</p>
+            <p className="absolute -bottom-6 left-0 text-red-500">
+              {errors.height.message}
+            </p>
           )}
         </FormControl>
         <FormControl
           isInvalid={Boolean(errors.weight)}
-          className="flex flex-col gap-1"
+          className="relative flex flex-col gap-1"
         >
           <FormLabel></FormLabel>
           <Input
@@ -111,11 +121,14 @@ export const CalcForm: React.FC = () => {
             variant="flushed"
           />
           {errors.weight && (
-            <p className="text-red-500">{errors.weight.message}</p>
+            <p className="absolute -bottom-6 left-0 text-red-500">
+              {errors.weight.message}
+            </p>
           )}
         </FormControl>
       </div>
       <Button
+        marginTop={"2rem"}
         width={"full"}
         size={"lg"}
         fontWeight={"bold"}
