@@ -12,7 +12,14 @@ export async function getAddress(query: string) {
       Accept: "application/json",
       Authorization: "Token " + token,
     },
-    data: JSON.stringify({ query: query }),
+    data: JSON.stringify({
+      query: query,
+      locations_boost: [
+        {
+          kladr_id: "50",
+        },
+      ],
+    }),
   });
 
   return data.data;
