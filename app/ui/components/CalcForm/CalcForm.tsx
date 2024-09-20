@@ -54,6 +54,7 @@ export const CalcForm: React.FC = () => {
 
   function handleSelectAddress(address: string) {
     setValue("deliveryTo", address);
+    setIsActive(false);
     setSuggestions([]);
   }
 
