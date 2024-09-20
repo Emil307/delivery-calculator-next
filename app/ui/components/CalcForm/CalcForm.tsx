@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { calc } from "@/app/api/calc";
 import { getAddress } from "@/app/api/address";
@@ -20,8 +20,11 @@ export const CalcForm: React.FC = () => {
     register,
     watch,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<IFormFileds>();
+
+  const [suggestions, setSuggestions] = useState([]);
 
   const watchDeliveryTo = watch("deliveryTo", "");
 
@@ -31,13 +34,18 @@ export const CalcForm: React.FC = () => {
     if (debouncedDeliveryTo) {
       getAddress(debouncedDeliveryTo)
         .then((res) => {
-          console.log(res.suggestions);
+          setSuggestions(res.suggestions);
         })
         .catch((e) => {
           console.log(e);
         });
     }
   }, [debouncedDeliveryTo]);
+
+  function handleSelectAddress(address: string) {
+    setValue("deliveryTo", address);
+    setSuggestions([]);
+  }
 
   const onSubmit: SubmitHandler<IFormFileds> = async (data) => {
     calc(data)
@@ -52,30 +60,46 @@ export const CalcForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-96 flex flex-col gap-4 items-start p-8 rounded-xl bg-white"
+      className="w-96 flex flex-col gap-4 items-start p-8 rounded-xl bg-white shadow-md"
     >
       <h1 className="font-bold text-2xl">Рассчитать доставку</h1>
       <div className="w-full flex flex-col gap-4">
-        <FormControl
-          isInvalid={Boolean(errors.deliveryTo)}
-          className="relative flex flex-col gap-1"
-        >
-          <FormLabel></FormLabel>
-          <Input
-            placeholder="Куда"
-            type="text"
-            {...register("deliveryTo", {
-              required: "Обязательное поле",
-            })}
-            size="sm"
-            variant="flushed"
-          />
-          {errors.deliveryTo && (
-            <p className="absolute -bottom-6 left-0 text-red-500">
-              {errors.deliveryTo.message}
-            </p>
+        <div className="relative">
+          <FormControl
+            isInvalid={Boolean(errors.deliveryTo)}
+            className="relative flex flex-col gap-1"
+          >
+            <FormLabel></FormLabel>
+            <Input
+              placeholder="Куда"
+              type="text"
+              {...register("deliveryTo", {
+                required: "Обязательное поле",
+              })}
+              size="sm"
+              variant="flushed"
+            />
+            {errors.deliveryTo && (
+              <p className="absolute -bottom-6 left-0 text-red-500">
+                {errors.deliveryTo.message}
+              </p>
+            )}
+          </FormControl>
+          {suggestions.length > 0 && (
+            <div className="flex flex-col gap-0 absolute -bottom-2 left-0 z-10 translate-y-full py-0 rounded-md bg-white shadow-sm">
+              {suggestions.map((suggestion: any, index) => (
+                <button
+                  onClick={() => handleSelectAddress(suggestion.value)}
+                  className="w-full rounded-md text-left py-2 px-4 hover:bg-slate-100"
+                  key={index}
+                >
+                  <p className="w-max text-sm">{suggestion.value}</p>
+                </button>
+              ))}
+            </div>
           )}
-        </FormControl>
+        </div>
+
         <FormControl
           isInvalid={Boolean(errors.length)}
           className="relative flex flex-col gap-1"
