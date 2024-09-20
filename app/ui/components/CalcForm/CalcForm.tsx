@@ -25,6 +25,7 @@ export const CalcForm: React.FC = () => {
   } = useForm<IFormFileds>();
 
   const [suggestions, setSuggestions] = useState([]);
+  const [price, setPrice] = useState();
 
   const watchDeliveryTo = watch("deliveryTo", "");
 
@@ -50,7 +51,7 @@ export const CalcForm: React.FC = () => {
   const onSubmit: SubmitHandler<IFormFileds> = async (data) => {
     calc(data)
       .then((res) => {
-        console.log(res.data);
+        setPrice(res.price);
       })
       .catch((e) => {
         console.log(e);
@@ -176,9 +177,10 @@ export const CalcForm: React.FC = () => {
             </p>
           )}
         </FormControl>
+        <h2 className="text-xl font-bold">Итого: {price && `${price}₽`}</h2>
       </div>
       <Button
-        marginTop={"2rem"}
+        marginTop={"1rem"}
         width={"full"}
         size={"lg"}
         fontWeight={"bold"}

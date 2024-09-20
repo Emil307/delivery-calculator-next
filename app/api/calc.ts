@@ -9,7 +9,7 @@ export async function calc(deliveryInfo: IDeliveryInfo) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Headers": "*",
+      Accept: "application/json",
     },
     data: deliveryInfo,
   });
