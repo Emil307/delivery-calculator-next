@@ -25,11 +25,20 @@ export const CalcForm: React.FC = () => {
   } = useForm<IFormFileds>();
 
   const [suggestions, setSuggestions] = useState([]);
+  const [isActive, setIsActive] = useState(false);
   const [price, setPrice] = useState();
 
   const watchDeliveryTo = watch("deliveryTo", "");
 
   const debouncedDeliveryTo = useDebounce(watchDeliveryTo, 500);
+
+  useEffect(() => {
+    if (watchDeliveryTo) {
+      setIsActive(true);
+      return;
+    }
+    setIsActive(false);
+  }, [watchDeliveryTo]);
 
   useEffect(() => {
     if (debouncedDeliveryTo) {
@@ -72,6 +81,7 @@ export const CalcForm: React.FC = () => {
           >
             <FormLabel></FormLabel>
             <Input
+              autoComplete="off"
               placeholder="Куда"
               type="text"
               {...register("deliveryTo", {
@@ -86,8 +96,13 @@ export const CalcForm: React.FC = () => {
               </p>
             )}
           </FormControl>
-          {suggestions.length > 0 && (
+          {isActive && (
             <div className="flex flex-col gap-0 absolute -bottom-2 left-0 z-10 translate-y-full py-0 rounded-md bg-white shadow-sm">
+              {suggestions.length === 0 && (
+                <p className="w-max min-w-80 rounded-md text-left py-2 px-4">
+                  Поиск адресов...
+                </p>
+              )}
               {suggestions.map((suggestion: string, index) => (
                 <button
                   onClick={() => handleSelectAddress(suggestion)}
