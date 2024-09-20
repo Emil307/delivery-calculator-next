@@ -28,7 +28,7 @@ export const CalcForm: React.FC = () => {
   const debouncedDeliveryTo = useDebounce(watchDeliveryTo, 500);
 
   useEffect(() => {
-    if (typeof debouncedDeliveryTo === "string") {
+    if (debouncedDeliveryTo) {
       getAddress(debouncedDeliveryTo)
         .then((res) => {
           console.log(res.suggestions);
