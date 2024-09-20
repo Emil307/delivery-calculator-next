@@ -3,6 +3,8 @@ import axios from "axios";
 const API = process.env.NEXT_PUBLIC_DADA_API_URL;
 const token = process.env.NEXT_PUBLIC_DADA_API_KEY;
 
+const MoscowKladrId = "50";
+
 export async function getAddress(query: string) {
   const data = await axios({
     url: `${API}`,
@@ -16,7 +18,7 @@ export async function getAddress(query: string) {
       query: query,
       locations_boost: [
         {
-          kladr_id: "50",
+          kladr_id: MoscowKladrId,
         },
       ],
     }),
