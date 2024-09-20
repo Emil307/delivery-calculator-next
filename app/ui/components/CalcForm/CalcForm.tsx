@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { calc } from "@/app/api/calc";
 import { getAddress } from "@/app/api/address";
 import { useDebounce } from "@/app/lib/api/useDebounce";
+import { useToast } from "@chakra-ui/react";
 
 interface IFormFileds {
   deliveryTo: string;
@@ -23,6 +24,8 @@ export const CalcForm: React.FC = () => {
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<IFormFileds>();
+
+  const toast = useToast();
 
   const [suggestions, setSuggestions] = useState([]);
   const [isActive, setIsActive] = useState(false);
@@ -64,7 +67,14 @@ export const CalcForm: React.FC = () => {
         setPrice(res.price);
       })
       .catch((e) => {
-        console.log(e);
+        toast({
+          position: "top",
+          title: e.response.data.message,
+          description: "",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
 
