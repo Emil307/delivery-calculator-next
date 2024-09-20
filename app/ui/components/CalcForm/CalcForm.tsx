@@ -29,7 +29,7 @@ export const CalcForm: React.FC = () => {
 
   const [suggestions, setSuggestions] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState(null);
 
   const watchDeliveryTo = watch("deliveryTo", "");
 
@@ -62,6 +62,7 @@ export const CalcForm: React.FC = () => {
   }
 
   const onSubmit: SubmitHandler<IFormFileds> = async (data) => {
+    setPrice(null);
     calc(data)
       .then((res) => {
         setPrice(res.price);
