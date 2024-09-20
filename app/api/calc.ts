@@ -5,7 +5,7 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 
 export async function calc(deliveryInfo: IDeliveryInfo) {
   const data = await axios({
-    url: `${API}/posts/`,
+    url: `${API}/order/price/`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
