@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
@@ -36,7 +35,7 @@ export const CalcForm: React.FC = () => {
     if (debouncedDeliveryTo) {
       getAddress(debouncedDeliveryTo)
         .then((res) => {
-          setSuggestions(res.suggestions);
+          setSuggestions(res);
         })
         .catch((e) => {
           console.log(e);
@@ -89,13 +88,13 @@ export const CalcForm: React.FC = () => {
           </FormControl>
           {suggestions.length > 0 && (
             <div className="flex flex-col gap-0 absolute -bottom-2 left-0 z-10 translate-y-full py-0 rounded-md bg-white shadow-sm">
-              {suggestions.map((suggestion: any, index) => (
+              {suggestions.map((suggestion: string, index) => (
                 <button
-                  onClick={() => handleSelectAddress(suggestion.value)}
+                  onClick={() => handleSelectAddress(suggestion)}
                   className="w-full rounded-md text-left py-2 px-4 hover:bg-slate-100"
                   key={index}
                 >
-                  <p className="w-max text-sm">{suggestion.value}</p>
+                  <p className="w-max text-sm">{suggestion}</p>
                 </button>
               ))}
             </div>
