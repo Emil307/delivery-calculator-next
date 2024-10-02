@@ -7,6 +7,7 @@ import { calc } from "@/app/api/calc";
 import { getAddress } from "@/app/api/address";
 import { useDebounce } from "@/app/lib/api/useDebounce";
 import { useToast } from "@chakra-ui/react";
+import { IDeliveryInfo } from "@/app/types/delivery";
 
 interface IFormFileds {
   deliveryTo: string;
@@ -29,7 +30,7 @@ export const CalcForm: React.FC = () => {
 
   const [suggestions, setSuggestions] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [price, setPrice] = useState(null);
+  const [result, setResult] = useState<IDeliveryInfo | null>(null);
 
   const watchDeliveryTo = watch("deliveryTo", "");
 
@@ -62,15 +63,15 @@ export const CalcForm: React.FC = () => {
   }
 
   const onSubmit: SubmitHandler<IFormFileds> = async (data) => {
-    setPrice(null);
+    setResult(null);
     calc(data)
       .then((res) => {
-        setPrice(res.price);
+        setResult(res);
       })
       .catch((e) => {
         toast({
           position: "top",
-          title: e.response.data.message,
+          title: e.response.data.message || "Ошибка сервера",
           description: "",
           status: "error",
           duration: 3000,
@@ -204,7 +205,16 @@ export const CalcForm: React.FC = () => {
             </p>
           )}
         </FormControl>
-        <h2 className="text-xl font-bold">Итого: {price && `${price}₽`}</h2>
+        <h2 className="text-xl font-bold">
+          Итого: {result && `${result.price}₽`}
+        </h2>
+
+        <p className="text-stone-500">
+          Физический вес: {result && `${result.physicalWeight}кг`}
+        </p>
+        <p className="text-stone-500">
+          Объемный вес: {result && `${result.volumetricWeight}кг`}
+        </p>
       </div>
       <Button
         marginTop={"1rem"}
