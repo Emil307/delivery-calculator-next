@@ -7,6 +7,7 @@ import { calc } from "@/app/api/calc";
 import { getAddress } from "@/app/api/address";
 import { useDebounce } from "@/app/lib/api/useDebounce";
 import { useToast } from "@chakra-ui/react";
+import { IDeliveryInfo } from "@/app/types/delivery";
 
 interface IFormFileds {
   deliveryTo: string;
@@ -29,7 +30,7 @@ export const CalcForm: React.FC = () => {
 
   const [suggestions, setSuggestions] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<IDeliveryInfo | null>(null);
 
   const watchDeliveryTo = watch("deliveryTo", "");
 
